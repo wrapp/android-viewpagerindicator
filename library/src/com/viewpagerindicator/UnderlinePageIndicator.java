@@ -20,6 +20,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -56,6 +57,9 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
     private float mLastMotionX = -1;
     private int mActivePointerId = INVALID_POINTER;
     private boolean mIsDragging;
+
+    private RectF mRectF = new RectF();
+    private float mCornerRadius;
 
     private final Runnable mFadeRunnable = new Runnable() {
       @Override public void run() {
@@ -97,6 +101,8 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         setSelectedColor(a.getColor(R.styleable.UnderlinePageIndicator_selectedColor, defaultSelectedColor));
         setFadeDelay(a.getInteger(R.styleable.UnderlinePageIndicator_fadeDelay, defaultFadeDelay));
         setFadeLength(a.getInteger(R.styleable.UnderlinePageIndicator_fadeLength, defaultFadeLength));
+
+        mCornerRadius = a.getDimension(R.styleable.UnderlinePageIndicator_vpi_corner_radius, 0);
 
         Drawable background = a.getDrawable(R.styleable.UnderlinePageIndicator_android_background);
         if (background != null) {
@@ -175,7 +181,8 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         final float right = left + pageWidth;
         final float top = getPaddingTop();
         final float bottom = getHeight() - getPaddingBottom();
-        canvas.drawRect(left, top, right, bottom, mPaint);
+        mRectF.set(left, top, right, bottom);
+        canvas.drawRoundRect(mRectF, mCornerRadius, mCornerRadius, mPaint);
     }
 
     public boolean onTouchEvent(MotionEvent ev) {

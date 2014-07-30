@@ -125,5 +125,6 @@
         <attr name="selectedColor" />
         <!-- View background -->
         <attr name="android:background"/>
+        <attr name="vpi_corner_radius" format="dimension" />
     </declare-styleable>
 </resources>
