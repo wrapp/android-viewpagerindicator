@@ -25,3 +25,4 @@ proguard-project.txt
 #Gradle
 .gradle/
 build/
+.DS_Store
